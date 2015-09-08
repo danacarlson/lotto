@@ -110,15 +110,16 @@ module.exports = function(grunt) {
       },
       dev: {
         src: [  // common files
-          '<%= config.src %>/assets/js/main/init.js',
-          '<%= config.src %>/assets/js/main/globals.js'
+          '<%= config.src %>/assets/js/main/globals.js',
+          '<%= config.src %>/assets/js/main/init.js'
         ],
         dest: '<%= config.dev %>/js/main.js'
       },
       vendor: {
         src: [  // vendor files
           '<%= config.src %>/assets/js/vendor/jquery-2.1.1.min.js',
-          '<%= config.src %>/assets/js/vendor/lodash.min.js'
+          '<%= config.src %>/assets/js/vendor/lodash.min.js',
+          'bower_components/fabric/dist/fabric.min.js'
         ],
         dest: '<%= config.dev %>/js/vendor.min.js'
       }
@@ -282,6 +283,12 @@ module.exports = function(grunt) {
             cwd: '<%= config.src %>/assets/js/',
             src: ['*.js'],
             dest: '<%= config.dev %>/js/'
+          },
+          {
+            expand: true,
+            cwd: '<%= config.src %>/_data/',
+            src: ['lottery.json'],
+            dest: '<%= config.dev %>/data/'
           }
         ]
       }
@@ -292,7 +299,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('assemble');
   grunt.loadNpmTasks('grunt-jscs');
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
-  grunt.registerTask('base', ['clean','assemble:dev', 'assemble:waystouse','assemble:styleguide', 'assemble:howitworks', 'assemble:tools', 'imagemin', 'copy', 'concat:dev', 'concat:vendor', 'uglify', 'convert']);
+  grunt.registerTask('base', ['clean','assemble:dev', 'imagemin', 'copy', 'concat:dev', 'concat:vendor', 'uglify']);
   grunt.registerTask('default', ['base', 'compass:dev']);
   grunt.registerTask('start', ['default', 'watch']);
 };

@@ -1,7 +1,7 @@
 {
-  "title": "Lotto Lotto Lotto",
+  "title": "LottoLottoLotto",
   "name": "Lotto",
-  "description": "Lotto-tastic",
+  "description": "Lottotastic",
   "version": "0.1.0",
   "dependencies": {
     "lodash-node": "^3.9.3"
