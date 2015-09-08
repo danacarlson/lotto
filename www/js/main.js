@@ -15,7 +15,7 @@ lotto.global.init = (function() {
 
   function loadData() {
     $.getJSON('/data/lottery.json', function(data) {
-      var len = 10,
+      var len = 30,
         i = 0;
 
       for (i; i<len; i++) {
@@ -26,7 +26,7 @@ lotto.global.init = (function() {
         timeout = 300 * i;
         //make points interesting
         for (var j = 0; j < 6; j++) {
-          var newpoint = parseInt(points[j]) * 30;
+          var newpoint = parseInt(points[j]) * 10;
           revisedPoints.push(newpoint);
         }
         revisedPoints = shuffle(revisedPoints);
@@ -72,10 +72,12 @@ lotto.global.init = (function() {
   }
 
   function drawPath(points, timeout) {
-    setTimeout(function() {
+    var string = 'M' + points[0] + ' ' + points[1] + ' Q' + points[2] + ' ' + points[3] + ' ' + points[4] + ' ' + points[5];
+    setTimeout(function(points) {
       var path;
-      path = new fabric.Path('M 0 0 A 200 100 A 170 200 z');
+      path = new fabric.Path(string);
       path.set({
+        fill: 'transparent',
         stroke: 'red',
         left: 0,
         top: 0
