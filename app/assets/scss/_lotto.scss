@@ -1,6 +1,76 @@
+body {
+  min-width: 1000px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 14px;
+}
+
+.options {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 30px 20px;
+  width:  250px;
+
+  input {
+    padding-right: 10px;
+  }
+}
 
 
-#lotto-art {
-  margin: 10px auto;
+.art {
+  margin: 30px auto;
   display: block;
+  @include box-shadow(0px 0px 9px 3px #d7d7d7);
+  height: 500px;
+  width: 500px;
+  position: relative;
+  z-index: 1;
+}
+#lotto-art {
+  display: block;
+}
+
+.gallery-image {
+  display: block;
+  width: 800px;
+  margin: 0 auto;
+  position: relative;
+  top: -100px;
+  z-index: 0;
+  img {
+    width: 900px;
+  }
+}
+
+button {
+  height: 40px;
+  width: 65px;
+  text-align: center;
+  background: #fdfdd0;
+  border: 1px solid #999;
+  font-size: 13px;
+  margin: 20px 0;
+  @include border-radius(15px);
+  font-family: arial, helvetica, sans-serif;
+  cursor: pointer;
+  outline: none;
+  text-transform: uppercase;
+
+  &:hover {
+    background: #fff799;
+  }
+  &.reset {
+    margin-left: 5px;
+    background: #c1f9dd;
+    &:hover {
+      background: #aaf9d1;
+    }
+  }
+  &.stop {
+    margin-left: 5px;
+    background: #fb6a70;
+    &:hover {
+      background: #ed1c24;
+    }
+  }
 }

@@ -45,7 +45,7 @@ module.exports = function(grunt) {
       },
       scripts: {
         files: ['<%= config.src %>/assets/js/**/*.js'],
-        tasks: ['jshint', 'jscs', 'concat:dev', 'concat:vendor']
+        tasks: ['jscs', 'concat:dev', 'concat:vendor']
       },
       copy: {
         files: ['<%= config.src %>/assets/{,*/}*.{js}','<%= config.src %>/assets/js/**/*.js','<%= config.src %>/_toc/{,*/}**'],

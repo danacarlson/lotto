@@ -13,7 +13,29 @@
   </head>
   <body class="">
     <div class="">
-      <canvas id="lotto-art" width="500" height="500"></canvas>
+      <ul class="options">
+        <li>
+          <input type="radio" name="art-type" id="min-lines" data-type="drawLines">
+          <label for="min-lines">Minimal Lines</label>
+        </li>
+        <li>
+          <input type="radio" name="art-type" id="tiny-circles" data-type="drawTinyCircles">
+          <label for="tiny-circles">Modern Circles</label>
+        </li>
+        <li>
+          <button type="button" class="clear">Clear</button>
+          <button type="button" class="reset">Reset</button>
+          <button type="button" class="stop">Stop</button>
+        </li>
+      </ul>
+      <div class="display">
+        <div class="art">
+          <canvas id="lotto-art" width="500" height="500"></canvas>
+        </div>
+        <div class="gallery-image">
+          <img src="images/gallery.jpg" alt="" />
+        </div>
+      </div>
       <script type="text/javascript" src="../js/vendor.min.js"></script>
       <script type="text/javascript" src="../js/main.js"></script>
     </div>
