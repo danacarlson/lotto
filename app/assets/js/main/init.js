@@ -1,11 +1,11 @@
 lotto.global.init = (function() {
   'use strict';
 
-  var stage, numbers;
+  var stage, numbers, activeIndex = 0;
 
   function loadData() {
     $.getJSON('/data/lottery.json', function(data) {
-      var len = 30,
+      var len = 100,
         i = 0;
 
       for (i; i<len; i++) {
@@ -13,14 +13,14 @@ lotto.global.init = (function() {
           revisedPoints = [],
           timeout;
 
-        timeout = 300 * i;
+        timeout = 20 * i;
         //make points interesting
         for (var j = 0; j < 6; j++) {
-          var newpoint = parseInt(points[j]) * 10;
+          var newpoint = parseInt(points[j]) * 5;
           revisedPoints.push(newpoint);
         }
         revisedPoints = shuffle(revisedPoints);
-        drawPath(revisedPoints, timeout);
+        drawLine(revisedPoints, timeout);
       }
     });
   }
@@ -61,6 +61,41 @@ lotto.global.init = (function() {
     }, timeout);
   }
 
+  function drawCircle(points, timeout) {
+    setTimeout(function() {
+      var circle;
+      circle = new fabric.Circle({
+        radius: points[0] / 3,
+        fill: 'red',
+        left: points[1],
+        top: points[2],
+        opacity: points[3] / 1000
+      });
+
+      stage.add(circle);
+    }, timeout);
+  }
+
+  function drawTinyCircles(points, timeout) {
+    var colors = ['red', 'blue', 'yellow'];
+    setTimeout(function() {
+      var circle;
+      circle = new fabric.Circle({
+        radius: 10,
+        fill: colors[activeIndex],
+        left: points[1] + (points[1] / 2),
+        top: points[2] + (points[2] / 2),
+        opacity: points[3] / 600
+      });
+      activeIndex++;
+      if (activeIndex === 3) {
+        activeIndex = 0;
+      }
+
+      stage.add(circle);
+    }, 0);
+  }
+
   function drawPath(points, timeout) {
     var string = 'M' + points[0] + ' ' + points[1] + ' Q' + points[2] + ' ' + points[3] + ' ' + points[4] + ' ' + points[5];
     setTimeout(function(points) {
@@ -77,7 +112,7 @@ lotto.global.init = (function() {
   }
 
   $(document).ready(function() {
-    stage = new fabric.Canvas('lotto-art');
+    stage = new fabric.StaticCanvas('lotto-art');
     loadData();
   });
 })();
