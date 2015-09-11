@@ -4,7 +4,15 @@ title: "Lotto-tastic"
 
 {{#extend "default"}}
   {{#content "body"}}
+  <div id="ticket-num">Lotto Ticket #<span id="current"></span></div>
   <ul class="options">
+    <li class="hdr">How many lotto tickets?</li>
+    <li>
+      <div class="slider">
+        <input type="range" min="1" max="1457" value="725" step="1" data-range-slider  />
+      </div>
+    </li>
+    <li class="hdr">Pick your art style</li>
     <li>
       <input type="radio" name="art-type" id="min-lines" data-type="drawLines"><label for="min-lines">Minimal Lines</label>
     </li>
@@ -12,7 +20,22 @@ title: "Lotto-tastic"
       <input type="radio" name="art-type" id="tiny-circles" data-type="drawTinyCircles"><label for="tiny-circles">Modern Circles</label>
     </li>
     <li>
-      <button type="button" class="clear">Clear</button><button type="button" class="reset">Reset</button><button type="button" class="stop">Stop</button>
+      <input type="radio" name="art-type" id="circle" data-type="drawCircle"><label for="circle">60's Circles</label>
+    </li>
+    <li>
+      <input type="radio" name="art-type" id="arcs" data-type="drawPath"><label for="arcs">Arcs</label>
+    </li>
+    <li>
+      <input type="radio" name="art-type" id="continuousLine" data-type="continuousLine"><label for="continuousLine">Continuous Line</label>
+    </li>
+    <li>
+      <input type="radio" name="art-type" id="matrix" data-type="matrix"><label for="matrix">The Matrix</label>
+    </li>
+    <li>
+      <input type="radio" name="art-type" id="eighties" data-type="eighties"><label for="eighties">The 80s</label>
+    </li>
+    <li class="cta">
+      <button type="button" class="reset">Go</button><button type="button" class="stop">Stop</button><button type="button" class="clear">Clear</button>
     </li>
   </ul>
   <div class="display">

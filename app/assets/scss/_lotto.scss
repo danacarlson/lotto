@@ -1,22 +1,73 @@
 body {
-  min-width: 1000px;
+  min-width: 1250px;
   font-family: arial, helvetica, sans-serif;
   font-size: 14px;
 }
 
-.options {
-  position: absolute;
-  top: 0;
-  left: 0;
-  margin: 30px 20px;
-  width:  250px;
+.art {
+  overflow: hidden;
+}
 
-  input {
-    padding-right: 10px;
+#ticket-num {
+  position: absolute;
+  top: -69px;
+  left: 80%;
+  width: 150px;
+  height: 39px;
+  padding-top: 30px;
+  text-align: center;
+  background: url(../images/tab.jpg) 0 0 no-repeat;
+  @include transition(all, .5s ease-out);
+  &.on {
+    top: 0;
   }
 }
 
+.matrix-point {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
 
+.group {
+  position: absolute;
+  top: 0;
+  @include transition(all, 3s ease-out);
+  &.on {
+    top: 500px;
+  }
+}
+
+.options {
+  position: absolute;
+  top: -5000px;
+  left: 0;
+  margin: 30px 20px;
+  width:  300px;
+  @include transition(all, 1.25s ease-out);
+
+  &.on {
+    top: 0;
+  }
+
+  input[type="radio"] {
+    padding-right: 10px;
+    cursor: pointer;
+  }
+  label {
+    cursor: pointer;
+  }
+}
+
+.hdr {
+  text-transform: uppercase;
+  font-size: 12px;
+  padding-bottom: 15px;
+  padding-left: 60px;
+  background: url(../images/arrow.jpg) 0 0 no-repeat;
+  line-height: 27px;
+  background-size: 17%;
+}
 .art {
   margin: 30px auto;
   display: block;
@@ -26,6 +77,11 @@ body {
   position: relative;
   z-index: 1;
 }
+
+.cta {
+  margin-top: 50px;
+}
+
 #lotto-art {
   display: block;
 }
@@ -55,12 +111,13 @@ button {
   cursor: pointer;
   outline: none;
   text-transform: uppercase;
-
+  &.clear {
+    margin-left: 5px;
+  }
   &:hover {
     background: #fff799;
   }
   &.reset {
-    margin-left: 5px;
     background: #c1f9dd;
     &:hover {
       background: #aaf9d1;
@@ -73,4 +130,82 @@ button {
       background: #ed1c24;
     }
   }
+}
+
+.slider {
+  position: relative;
+  left: 25px;
+  left: 0;
+  margin-top: 10px;
+  margin-bottom: 40px;
+
+  .step {
+    display: none;
+  }
+
+  .slider-tooltip {
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: -10px;
+    text-align: center;
+    text-transform: uppercase;
+  }
+
+  .step hr {
+    border: none;
+    border-left: 1px solid #CCC;
+    width: 1px;
+    height: 40px;
+    margin: 0;
+  }
+
+  .step-amount {
+    text-align: center;
+    color: #999;
+    top: 50px;
+    position: absolute;
+    width: 10px;
+    display: none;
+  }
+
+  span.step-amount {
+    left: auto;
+    top: 40px;
+    font-size: 12px;
+  }
+
+
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    outline: none;
+    position: relative;
+    border: 1px solid #999;
+    border-radius: none;
+    box-shadow: none;
+    height: 4px;
+    margin: 20px 0 20px;
+    padding: 0;
+    // Permalink - use to edit and share this gradient:
+    // http://colorzilla.com/gradient-editor/#efefef+0,ffffff+100
+    //background-color: #efefef; // Old browsers
+    @include filter-gradient(#efefef, #ffffff, vertical); // IE6-8
+    // IE9 SVG, needs conditional override of 'filter' to 'none'
+    $experimental-support-for-svg: true;
+    //@include background-image(linear-gradient(top,  #999 0%,#ffffff 100%));
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    position: relative;
+    display: block;
+    height: 34px;
+    width: 34px;
+    border: 1px solid #999;
+    border-radius: 17px;
+    background-color: #fff;
+    cursor: pointer;
+  }
+
 }

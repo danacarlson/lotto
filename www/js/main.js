@@ -1,6 +1,6 @@
 /*
  * LottoLottoLotto - r0.1.0
- * 2015-09-10 */
+ * 2015-09-11 */
 
 if (typeof lotto === 'undefined') {
   lotto = {
@@ -11,80 +11,128 @@ if (typeof lotto === 'undefined') {
 lotto.global.init = (function() {
   'use strict';
 
-  var stage, records, artStyles, numbers, timer, activeIndex = 0, stop = false;
+  var stage, records, artStyles, numbers, firstLoad = true, interval, activeIndex = 0;
 
   artStyles = {
-    'drawLines': function(points, timeout) {
-      timer = setTimeout(function() {
-        var line;
-        if (stop) {
-          return false;
-        }
-        line = new fabric.Polyline([
-          {x: points[0], y: points[1]},
-          {x: points[2] + 100, y: points[3] + 100},
-          {x: points[4] + 200, y: points[5] + 200}
-          ], {
-          fill: 'transparent',
-          stroke: 'red',
-          strokeWidth: 1
-        });
+    'continuousStart': 'M 100 100',
+    'continuousLine': function(points) {
+      var string = artStyles.continuousStart + ' C' + (points[0] + 50) + ' ' + (points[1] + 100) + ' ' + (points[2] + 250) + ' ' + (points[3] + 450) + ' ' + (points[4] + 100) + ' ' + points[5],
+        path;
 
-        stage.add(line);
-      }, timeout);
+      path = new fabric.Path(string);
+      path.set({
+        fill: 'transparent',
+        stroke: '#754c24',
+        strokeWidth: 1,
+        opacity: points[3] / 600
+      });
+      artStyles.continuousStart = 'M' + (points[4] + 100) + ' ' + points[5];
+      stage.add(path);
+    },
+    'matrix': function(points) {
+      var j = 0,
+        leng = points.length,
+        $canvas = $('.art'),
+        $group = $('<div class="group"></div>'),
+        extra = 0;
+
+      $canvas.css({
+        'background': '#000',
+        'color': '#fff'
+      });
+
+      for (j; j < leng; j++) {
+        var nextPoint;
+
+        if (j > 0) {
+          extra = extra + 85;
+        }
+
+        if (j === (leng - 1)) {
+          nextPoint = 0;
+        } else {
+          nextPoint = j + 1;
+        }
+        $group.append('<div class="matrix-point" style="left:' + (points[j] + extra) + 'px; top:' + (points[nextPoint]) + 'px;">' + (points[j] / 5) + '</div>');
+        $canvas.append($group);
+        setTimeout(function() {
+          $group.addClass('on');
+        }, 100);
+      }
+    },
+    'eighties': function(points) {
+      var photos = ['../images/80-photo-1.jpg', '../images/80-photo-2.jpg', '../images/80-photo-3.jpg', '../images/80-photo-4.jpg', '../images/80-photo-5.jpg'],
+        image;
+      image = new fabric.Image.fromURL(photos[0], function(img) {
+        img.scale(points[0] / 1000);
+        img.set('angle', points[1] / 2);
+        img.set('left', points[2]);
+        img.set('top', points[3]);
+        stage.add(img);
+      });
+    },
+    'drawLines': function(points) {
+      var line;
+      line = new fabric.Polyline([
+        {x: points[0], y: points[1]},
+        {x: points[2] + 100, y: points[3] + 100},
+        {x: points[4] + 200, y: points[5] + 200}
+        ], {
+        fill: 'transparent',
+        stroke: '#000',
+        strokeWidth: 1
+      });
+      stage.add(line);
     },
     drawCircle: function(points, timeout) {
-      setTimeout(function() {
-        var circle;
-        if (stop) {
-          return false;
-        }
-        circle = new fabric.Circle({
-          radius: points[0] / 3,
-          fill: 'red',
-          left: points[1],
-          top: points[2],
-          opacity: points[3] / 1000
-        });
-
-        stage.add(circle);
-      }, timeout);
+      var colors = ['#fff200', '#ff6600', '#1daa61', '#448ccb', '#f06eaa'],
+        circle;
+      circle = new fabric.Circle({
+        radius: points[0] / 3,
+        fill: colors[activeIndex],
+        left: points[1],
+        top: points[2],
+        strokeWidth: 1,
+        stroke: '#ffffff'
+        //opacity: points[3] / 1000
+      });
+      activeIndex++;
+      if (activeIndex === colors.length) {
+        activeIndex = 0;
+      }
+      stage.add(circle);
     },
     drawTinyCircles: function(points, timeout) {
-      var colors = ['red', 'blue', 'yellow'];
-      setTimeout(function() {
-        var circle;
-        if (stop) {
-          return false;
-        }
-        circle = new fabric.Circle({
-          radius: 10,
-          fill: colors[activeIndex],
-          left: points[1] + (points[1] / 2),
-          top: points[2] + (points[2] / 2),
-          opacity: points[3] / 600
-        });
-        activeIndex++;
-        if (activeIndex === 3) {
-          activeIndex = 0;
-        }
+      var colors = ['red', 'blue', 'yellow'],
+        circle;
 
-        stage.add(circle);
-      }, 0);
+      circle = new fabric.Circle({
+        radius: 10,
+        fill: colors[activeIndex],
+        left: points[1] + (points[1] / 2),
+        top: points[2] + (points[2] / 2),
+        opacity: points[3] / 600
+      });
+      activeIndex++;
+      if (activeIndex === 3) {
+        activeIndex = 0;
+      }
+
+      stage.add(circle);
     },
     drawPath: function(points, timeout) {
-      var string = 'M' + points[0] + ' ' + points[1] + ' Q' + points[2] + ' ' + points[3] + ' ' + points[4] + ' ' + points[5];
-      setTimeout(function(points) {
-        var path;
-        path = new fabric.Path(string);
-        path.set({
-          fill: 'transparent',
-          stroke: 'red',
-          left: 0,
-          top: 0
-        });
-        stage.add(path);
-      }, timeout);
+      var string = 'M' + points[0] + ' ' + points[1] + ' Q' + points[2] + ' ' + points[3] + ' ' + points[4] + ' ' + points[5],
+        path;
+
+      path = new fabric.Path(string);
+      path.set({
+        fill: 'transparent',
+        stroke: 'red',
+        strokeWidth: 5,
+        left: points[1] + (points[1] / 2),
+        top: points[2] + (points[2] / 2),
+      });
+      stage.add(path);
     }
   };
 
@@ -114,62 +162,67 @@ lotto.global.init = (function() {
   }
 
   function loadArt(el) {
-    var len = 1000,
+    var len = $('[data-range-slider').val(),
       i = 0,
-      type;
+      type = $(el).attr('data-type'),
+      $currTicket = $('#current');
 
-    //let the loop run free again if it was stopped
-    stop = false;
+    $('#ticket-num').addClass('on');
 
-    if ($(this).length) {
-      type = $(this).attr('data-type');
-    } else {
-      type = $(el).attr('data-type');
+    clearInterval(interval);
+    if (firstLoad) {
+      stage.clear();
+      firstLoad = false;
     }
-    stage.clear();
 
-    for (i; i<len; i++) {
-      console.log('code executing');
-      var points = records[i].winning_numbers.split(' '),
-        revisedPoints = [],
-        timeout;
+    interval = setInterval(function() {
+      if (i < len) {
+        var points = records[i].winning_numbers.split(' '),
+          revisedPoints = [];
 
-      if (stop) {
-        break;
+        $currTicket.html(i + 1);
+
+        for (var j = 0; j < 6; j++) {
+          var newpoint = parseInt(points[j]) * 5;
+          revisedPoints.push(newpoint);
+        }
+        //make points more interesting
+        revisedPoints = shuffle(revisedPoints);
+        artStyles[type](revisedPoints);
+        i++;
       }
-
-      timeout = 20 * i;
-      //make points interesting
-      for (var j = 0; j < 6; j++) {
-        var newpoint = parseInt(points[j]) * 5;
-        revisedPoints.push(newpoint);
-      }
-      revisedPoints = shuffle(revisedPoints);
-      artStyles[type](revisedPoints, timeout);
-    }
+    }, 0);
   }
 
   function clearSelection() {
-    stop = true;
+    clearInterval(interval);
     stage.clear();
-    $('.options input').removeAttr('checked');
+    $('.art').css('background', '').find('.group').remove();
+    $('#ticket-num').removeClass('on');
   }
 
   function reload() {
+    clearInterval(interval);
     var $checkedOption = $('.options input:checked');
-    stop = true;
-    stage.clear();
     if ($checkedOption.length > 0) {
       loadArt($checkedOption);
     }
   }
 
   function stopLoop() {
-    stop = true;
+    clearInterval(interval);
+    if ($('.art').find('.group').length > 0) {
+      $('.art .group').each(function() {
+        var pos = $(this).position().top;
+        $(this).css({
+          'transition': 'none',
+          'top': pos
+        }).removeClass('on');
+      });
+    }
   }
 
   function addEvents() {
-    $('.options input').on('change', loadArt);
     $('.clear').on('click', clearSelection);
     $('.reset').on('click', reload);
     $('.stop').on('click', stopLoop);
@@ -189,6 +242,7 @@ lotto.global.init = (function() {
         onChange: stage.renderAll.bind(stage),
         duration: 600
       });
+      $('.options').addClass('on');
     });
     loadData();
     addEvents();

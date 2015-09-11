@@ -119,6 +119,7 @@ module.exports = function(grunt) {
         src: [  // vendor files
           '<%= config.src %>/assets/js/vendor/jquery-2.1.1.min.js',
           '<%= config.src %>/assets/js/vendor/lodash.min.js',
+          '<%= config.src %>/assets/js/vendor/slider.js',
           'bower_components/fabric/dist/fabric.min.js'
         ],
         dest: '<%= config.dev %>/js/vendor.min.js'
