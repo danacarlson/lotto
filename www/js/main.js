@@ -1,6 +1,6 @@
 /*
  * LottoLottoLotto - r0.1.0
- * 2015-09-11 */
+ * 2015-09-22 */
 
 if (typeof lotto === 'undefined') {
   lotto = {
@@ -62,32 +62,15 @@ lotto.global.init = (function() {
     },
     'eighties': function(points) {
       var photos = ['../images/80-photo-1.jpg', '../images/80-photo-2.jpg', '../images/80-photo-3.jpg', '../images/80-photo-4.jpg', '../images/80-photo-5.jpg'],
-        image,
-        j = 0,
-        extra = 0,
-        leng = points.length;
+      image;
 
-      for (j; j < leng; j++) {
-        var nextPoint;
-
-        if (j > 0) {
-          extra = extra + 85;
-        }
-
-        if (j === (leng - 1)) {
-          nextPoint = 0;
-        } else {
-          nextPoint = j + 1;
-        }
-
-        image = new fabric.Image.fromURL(photos[j], function(img) {
-          img.scale(points[j] / 1000);
-          img.set('angle', points[j] / 2);
-          img.set('left', points[j]);
-          img.set('top', points[j]);
-          stage.add(img);
-        });
-      }
+      image = new fabric.Image.fromURL(photos[Math.floor(Math.random() * photos.length)], function(img) {
+        img.scale(points[0] / 400);
+        img.set('angle', points[1]);
+        img.set('left', points[2]);
+        img.set('top', points[3] * 2);
+        stage.add(img);
+      });
     },
     'drawLines': function(points) {
       var line;
